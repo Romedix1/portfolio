@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @theme {
+  /* colors */
   --color-bg-base: #f4f1ea;
   --color-bg-surface: #ffffff;
   --color-text-primary: #14140f;
@@ -8,5 +9,11 @@
   --color-accent-primary: #1e3fd6;
   --color-accent-secondary: #ff5a1f;
 
+  /* font */
   --font-archivo: var(--font-archivo);
+
+  /* shadow */
+  --shadow-3d-sm: 2px 2px 0px 0px var(--color-text-primary);
+  --shadow-3d-md: 4px 4px 0px 0px var(--color-text-primary);
+  --shadow-3d-lg: 6px 6px 0px 0px var(--color-text-primary);
 }
