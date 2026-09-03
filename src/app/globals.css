@@ -17,3 +17,15 @@
   --shadow-3d-md: 4px 4px 0px 0px var(--color-text-primary);
   --shadow-3d-lg: 6px 6px 0px 0px var(--color-text-primary);
 }
+
+@theme {
+  --animate-marquee: marquee 25s linear infinite;
+}
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
