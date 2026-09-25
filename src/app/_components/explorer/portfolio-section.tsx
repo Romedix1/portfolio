@@ -1,6 +1,6 @@
 "use client";
 
-import { ProjectsSection } from "@/app/_components/explorer/projects-section";
+import { ProjectsSection } from "@/app/_components/explorer";
 import { TreeItem } from "@/app/_components/ui/tree-item";
 import { useState } from "react";
 

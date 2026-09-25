@@ -1,6 +1,6 @@
 "use client";
 
-import { TreeItem } from "@/app/_components/ui/tree-item";
+import { TreeItem } from "@/app/_components/ui";
 import { Dispatch, SetStateAction } from "react";
 
 type ProjectsSectionProps = {
