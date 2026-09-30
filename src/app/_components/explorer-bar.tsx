@@ -19,7 +19,7 @@ export const ExplorerBar = () => {
     >
       <div
         className={cn(
-          "flex justify-between items-center mr-4 mb-2",
+          "flex justify-between items-center mr-4",
           !isExanded && "justify-end lg:justify-between",
         )}
       >

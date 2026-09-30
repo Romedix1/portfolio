@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { ExplorerBar, FileBar } from "@/app/_components";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -15,7 +16,17 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${jetbrainsMono.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <div className="lg:flex">
+          <ExplorerBar />
+
+          <main className="flex-1 min-w-0 flex flex-col bg-bg-main">
+            <FileBar />
+
+            {children}
+          </main>
+        </div>
+      </body>
     </html>
   );
 }

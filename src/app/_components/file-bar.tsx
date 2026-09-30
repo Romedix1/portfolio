@@ -7,10 +7,14 @@ export const FileBar = () => {
   const { tabs } = useTabStore();
 
   return (
-    <section className="flex items-center  border-border-line border-b bg-bg-sidebar w-full overflow-x-auto">
-      {tabs.map((tab, index) => {
+    <section className="flex items-center border-border-line border-b bg-bg-sidebar w-full overflow-x-auto overflow-y-hidden">
+      {tabs.map((tab) => {
         return (
-          <FileTab key={`file-tab-${index}`} text={tab.name} path={tab.path} />
+          <FileTab
+            key={`file-tab-${tab.name}`}
+            text={tab.name}
+            path={tab.path}
+          />
         );
       })}
     </section>

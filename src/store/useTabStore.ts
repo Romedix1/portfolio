@@ -1,3 +1,4 @@
+import { persist } from "zustand/middleware";
 import { create } from "zustand";
 
 type Tab = {
@@ -11,17 +12,24 @@ interface TabStore {
   removeTab: (tabName: string) => void;
 }
 
-export const useTabStore = create<TabStore>((set) => ({
-  tabs: [],
-  addTab: (newTab) =>
-    set((state) => {
-      if (state.tabs.some((tab) => tab.name === newTab.name)) {
-        return state;
-      }
-      return { tabs: [...state.tabs, newTab] };
+export const useTabStore = create<TabStore>()(
+  persist(
+    (set) => ({
+      tabs: [],
+      addTab: (newTab) =>
+        set((state) => {
+          if (state.tabs.some((tab) => tab.name === newTab.name)) {
+            return state;
+          }
+          return { tabs: [...state.tabs, newTab] };
+        }),
+      removeTab: (tabNameToRemove) =>
+        set((state) => ({
+          tabs: state.tabs.filter((tab) => tab.name !== tabNameToRemove),
+        })),
     }),
-  removeTab: (tabNameToRemove) =>
-    set((state) => ({
-      tabs: state.tabs.filter((tab) => tab.name !== tabNameToRemove),
-    })),
-}));
+    {
+      name: "ide-tabs-storage",
+    },
+  ),
+);
