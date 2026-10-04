@@ -1,4 +1,5 @@
 import { CodePanel } from "@/app/_components/code-panel";
+import Link from "next/link";
 
 export default function Contact() {
   const CONTACT_DATA = [
@@ -46,19 +47,18 @@ export default function Contact() {
       <div className=" text-text-primary">
         {CONTACT_DATA.map((data) => {
           return (
-            <div
-              key={`contact-data-${data.label}`}
-              className="leading-6 flex items-center"
-            >
+            <div key={`contact-data-${data.label}`} className="leading-6 ">
               <span className="text-syntax-accent mr-2">- </span>
 
               <span className="font-bold mr-2">{data.label}:</span>
-              <a
+              <Link
+                target="_blank"
+                rel="noopener noreferrer"
                 href={data.href}
-                className="hover:text-syntax-accent hover:underline"
+                className="hover:text-syntax-accent hover:underline break-all"
               >
                 {data.value}
-              </a>
+              </Link>
             </div>
           );
         })}

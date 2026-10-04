@@ -1,10 +1,10 @@
 import { cn } from "@/lib/utils";
-import { ProjectItemData } from "@/types";
+import { CodePanelProjectData } from "@/types";
 import Link from "next/link";
 import { Fragment } from "react/jsx-runtime";
 
 type ProjectItemProps = {
-  data: ProjectItemData;
+  data: CodePanelProjectData;
 };
 
 export const ProjectItem = ({ data }: ProjectItemProps) => {

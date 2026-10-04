@@ -21,15 +21,20 @@ export default function About() {
 
       <div className="text-text-primary flex flex-col gap-6 leading-loose max-w-3xl mb-6">
         <p className="leading-6">
-          I{"'"}m a front-end developer focused on building scalable, efficient
-          web applications with modern tools. My priority is writing clean,
-          maintainable code that holds up over time.
+          I{"'"}m a full-stack developer building scalable, efficient web
+          applications with modern tools. My priority is clean, maintainable
+          code that holds up over time.
         </p>
         <p className="leading-6">
           I work mainly in the Next.js and TypeScript ecosystem, with a strong
           emphasis on solid project architecture - organized file structures,
           clean import patterns, and consistent naming conventions that keep the
           developer experience smooth.
+        </p>
+        <p className="leading-6">
+          I care about quality beyond the happy path, so I write tests with
+          Playwright, Vitest, and Testing Library, and I pair them with typed
+          forms and data layers (React Hook Form, Supabase, NeonDB).
         </p>
         <p className="leading-6">
           I stay current with modern patterns and best practices so that
