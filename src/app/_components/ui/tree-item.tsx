@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { useTabStore } from "@/store/useTabStore";
 import { File, Folder } from "lucide-react";
 import Link from "next/link";
 import { Dispatch, SetStateAction } from "react";
@@ -21,19 +22,22 @@ type FolderProps = BaseProps & {
 type TreeItemProps = FileProps | FolderProps;
 
 export const TreeItem = (props: TreeItemProps) => {
+  const { addTab } = useTabStore();
+
   const styles =
     "flex items-center cursor-pointer gap-1.5 px-4 py-1.5 outline-none";
 
   if (props.type === "file") {
     return (
       <Link
+        onClick={() => addTab({ name: props.text, path: props.href })}
         href={props.href}
         className={cn(
           styles,
           "hover:bg-bg-active-element hover:text-syntax-accent focus:bg-bg-active-element focus:text-syntax-accent",
         )}
       >
-        <File className="w-5 h-5" />
+        <File className="w-5 h-5 shrink-0" />
         {props.text}
       </Link>
     );
@@ -46,7 +50,7 @@ export const TreeItem = (props: TreeItemProps) => {
         )}
         onClick={() => props.setIsOpen((prev) => !prev)}
       >
-        <Folder className="w-5 h-5" />
+        <Folder className="w-5 h-5 shrink-0" />
         {props.text}
       </button>
     );

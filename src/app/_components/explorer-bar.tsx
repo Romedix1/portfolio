@@ -1,6 +1,6 @@
 "use client";
 
-import { PortfolioSection } from "@/app/_components/explorer/portfolio-section";
+import { PortfolioSection } from "@/app/_components/explorer";
 import { cn } from "@/lib/utils";
 import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { useState } from "react";
@@ -13,11 +13,13 @@ export const ExplorerBar = () => {
 
   return (
     <aside
-      className={cn("py-4 pl-4 bg-bg-sidebar lg:h-screen overflow-hidden")}
+      className={cn(
+        "py-4 pl-4 bg-bg-sidebar lg:h-screen overflow-hidden border-r border-border-line",
+      )}
     >
       <div
         className={cn(
-          "flex justify-between items-center mr-4 mb-2",
+          "flex justify-between items-center mr-4",
           !isExanded && "justify-end lg:justify-between",
         )}
       >
