@@ -1,26 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { SearchModal, Terminal } from "@/app/_components";
 import { useCommandStore } from "@/store/useCommandStore";
 
 export const CommandPaletteProvider = () => {
-  const {
-    isSearchOpen,
-    searchValue,
-    isTerminalOpen,
-    openSearch,
-    closeSearch,
-    setSearchValue,
-    toggleTerminal,
-    closeTerminal,
-  } = useCommandStore();
-
-  const isModalOpenRef = useRef(false);
-
-  useEffect(() => {
-    isModalOpenRef.current = isSearchOpen;
-  }, [isSearchOpen]);
+  const { isSearchOpen, isTerminalOpen, openSearch, toggleTerminal } =
+    useCommandStore();
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -60,15 +46,8 @@ export const CommandPaletteProvider = () => {
 
   return (
     <>
-      {isSearchOpen && (
-        <SearchModal
-          value={searchValue}
-          setValue={setSearchValue}
-          onClose={closeSearch}
-        />
-      )}
-
-      {isTerminalOpen && <Terminal onClose={closeTerminal} />}
+      {isSearchOpen && <SearchModal />}
+      {isTerminalOpen && <Terminal />}
     </>
   );
 };

@@ -4,26 +4,34 @@ import {
   getAvailableCommands,
   PROJECTS,
 } from "@/app/_components/search-modal-commands";
+import { useListNavigation } from "@/app/hooks";
+import { useCommandStore } from "@/store/useCommandStore";
 import { useTabStore } from "@/store/useTabStore";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo } from "react";
 
 type SearchModalProps = {
-  value: string;
-  setValue: (value: string) => void;
-  onClose: () => void;
+  value?: string;
+  setValue?: (value: string) => void;
+  onClose?: () => void;
 };
 
-export const SearchModal = ({ value, setValue, onClose }: SearchModalProps) => {
+export const SearchModal = ({
+  value: propValue,
+  setValue: propSetValue,
+  onClose: propOnClose,
+}: SearchModalProps) => {
   const router = useRouter();
-
   const path = usePathname();
-  const modalRef = useRef<HTMLDivElement>(null);
-
   const { addTab } = useTabStore();
+
+  const store = useCommandStore();
+  const value = propValue ?? store.searchValue;
+  const setValue = propSetValue ?? store.setSearchValue;
+  const onClose = propOnClose ?? store.closeSearch;
 
   const availableCommands = useMemo(
     () => getAvailableCommands(onClose),
@@ -31,13 +39,6 @@ export const SearchModal = ({ value, setValue, onClose }: SearchModalProps) => {
   );
 
   const isCommandMode = value.startsWith(">");
-
-  const initialIndex = PROJECTS.findIndex((project) =>
-    !isCommandMode ? project.url === path : 0,
-  );
-  const [currentSelected, setCurrentSelected] = useState(
-    initialIndex >= 0 ? initialIndex : 0,
-  );
 
   const filteredProjects = PROJECTS.filter((project) =>
     project.name.toLowerCase().includes(value.toLowerCase()),
@@ -47,72 +48,43 @@ export const SearchModal = ({ value, setValue, onClose }: SearchModalProps) => {
     command.name.toLowerCase().includes(value.slice(1).toLowerCase()),
   );
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node)
-      ) {
-        onClose();
-      }
-    };
+  const activeListLength = isCommandMode
+    ? filteredCommands.length
+    : filteredProjects.length;
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-      const activeListLength = isCommandMode
-        ? filteredCommands.length
-        : filteredProjects.length;
+  const initialIndex = PROJECTS.findIndex((project) =>
+    !isCommandMode ? project.url === path : false,
+  );
 
-      if (event.key === "Escape") {
-        onClose();
-      } else if (event.key === "ArrowDown") {
-        event.preventDefault();
-        setCurrentSelected((prev) =>
-          prev < activeListLength - 1 ? prev + 1 : prev,
-        );
-      } else if (event.key === "ArrowUp") {
-        event.preventDefault();
-        setCurrentSelected((prev) =>
-          prev > 0 ? prev - 1 : activeListLength - 1,
-        );
-      } else if (event.key === "Enter") {
-        event.preventDefault();
-        const selectedIndex =
-          currentSelected < activeListLength ? currentSelected : 0;
+  const handleSelect = (index: number) => {
+    if (isCommandMode && filteredCommands[index]) {
+      filteredCommands[index].action();
+      onClose();
+    } else if (!isCommandMode && filteredProjects[index]) {
+      addTab({
+        name: filteredProjects[index].name,
+        path: filteredProjects[index].url,
+      });
+      router.push(filteredProjects[index].url);
+      onClose();
+    }
+  };
 
-        if (isCommandMode && filteredCommands[selectedIndex]) {
-          filteredCommands[selectedIndex].action();
-          onClose();
-        } else if (!isCommandMode && filteredProjects[selectedIndex]) {
-          addTab({
-            name: filteredProjects[selectedIndex].name,
-            path: filteredProjects[selectedIndex].url,
-          });
-          router.push(filteredProjects[selectedIndex].url);
-          onClose();
-        }
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [
-    addTab,
-    currentSelected,
-    filteredCommands,
-    filteredProjects,
-    isCommandMode,
+  const {
+    selectedIndex: currentSelected,
+    setSelectedIndex: setCurrentSelected,
+    modalRef,
+  } = useListNavigation({
+    itemCount: activeListLength,
+    onSelect: handleSelect,
     onClose,
-    router,
-  ]);
+    initialIndex: initialIndex >= 0 ? initialIndex : 0,
+  });
 
   return (
     <div
       ref={modalRef}
+      aria-label={isCommandMode ? "Command Palette" : "Search files"}
       className="lg:w-225 w-11/12 bg-bg-main border border-border-line rounded-md overflow-hidden fixed z-50 top-4 left-1/2 -translate-x-1/2"
     >
       <div className="flex items-center justify-between border-b border-border-line pr-3 pl-6 bg-bg-sidebar">
@@ -124,6 +96,7 @@ export const SearchModal = ({ value, setValue, onClose }: SearchModalProps) => {
           type="text"
           autoFocus
           value={value}
+          aria-label={isCommandMode ? "Command input" : "Search files input"}
           placeholder={
             isCommandMode
               ? "Type a command to run..."
@@ -151,34 +124,32 @@ export const SearchModal = ({ value, setValue, onClose }: SearchModalProps) => {
           <span className="p-1 flex flex-col">
             {filteredProjects.length > 0 ? (
               <div className="flex flex-col gap-1">
-                {filteredProjects.map((project, index) => {
-                  return (
-                    <Link
-                      key={`search-project-${index}`}
-                      href={project.url}
-                      onClick={onClose}
+                {filteredProjects.map((project, index) => (
+                  <Link
+                    key={`search-project-${index}`}
+                    href={project.url}
+                    onClick={onClose}
+                    className={cn(
+                      "flex items-center gap-2 py-2 px-3 rounded-md",
+                      currentSelected === index
+                        ? "bg-syntax-accent/70 text-text-primary"
+                        : "hover:bg-bg-active-element outline-none focus:bg-bg-active-element group",
+                    )}
+                  >
+                    <span className="whitespace-nowrap shrink-0 font-medium text-sm">
+                      {project.name}
+                    </span>
+
+                    <span
                       className={cn(
-                        "flex items-center gap-2 py-2 px-3 rounded-md ",
-                        currentSelected === index
-                          ? "bg-syntax-accent/70 text-text-primary"
-                          : "hover:bg-bg-active-element outline-none focus:bg-bg-active-element group",
+                        "text-text-dimmed group-focus:text-text-primary group-hover:text-text-primary truncate",
+                        currentSelected === index && "text-text-primary",
                       )}
                     >
-                      <span className="whitespace-nowrap shrink-0 font-medium text-xs sm:text-sm">
-                        {project.name}
-                      </span>
-
-                      <span
-                        className={cn(
-                          "text-text-dimmed group-focus:text-text-primary group-hover:text-text-primary truncate",
-                          currentSelected === index && "text-text-primary",
-                        )}
-                      >
-                        {project.path}
-                      </span>
-                    </Link>
-                  );
-                })}
+                      {project.path}
+                    </span>
+                  </Link>
+                ))}
               </div>
             ) : (
               <div className="px-3 py-4 text-center text-text-dimmed">
@@ -192,25 +163,23 @@ export const SearchModal = ({ value, setValue, onClose }: SearchModalProps) => {
           <span className="p-1 flex flex-col">
             {filteredCommands.length > 0 ? (
               <div className="flex flex-col gap-1">
-                {filteredCommands.map((command, index) => {
-                  return (
-                    <button
-                      key={`project-command-${index}`}
-                      onClick={() => {
-                        command.action();
-                        onClose();
-                      }}
-                      className={cn(
-                        "flex cursor-pointer items-center gap-2 py-2 px-3 rounded-md text-text-dimmed ",
-                        currentSelected === index
-                          ? "bg-syntax-accent/70 text-text-primary"
-                          : "hover:text-text-primary hover:bg-bg-active-element outline-none focus:text-text-primary focus:bg-bg-active-element",
-                      )}
-                    >
-                      <span className="truncate">{command.name}</span>
-                    </button>
-                  );
-                })}
+                {filteredCommands.map((command, index) => (
+                  <button
+                    key={`project-command-${index}`}
+                    onClick={() => {
+                      command.action();
+                      onClose();
+                    }}
+                    className={cn(
+                      "flex cursor-pointer items-center gap-2 py-2 px-3 rounded-md text-text-dimmed",
+                      currentSelected === index
+                        ? "bg-syntax-accent/70 text-text-primary"
+                        : "hover:text-text-primary hover:bg-bg-active-element outline-none focus:text-text-primary focus:bg-bg-active-element",
+                    )}
+                  >
+                    <span className="truncate">{command.name}</span>
+                  </button>
+                ))}
               </div>
             ) : (
               <div className="px-3 py-4 text-center text-text-dimmed">
