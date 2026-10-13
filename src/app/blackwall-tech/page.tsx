@@ -1,5 +1,12 @@
 import { CodePanel } from "@/app/_components/code-panel";
 import { LivePreview } from "@/app/_components/live-preview";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "blackwall-tech.tsx",
+  description:
+    "E-commerce platform and workstation configurator built with Next.js, PostgreSQL, and Stripe.",
+};
 
 export default function BlackwallTech() {
   const projectData = {

@@ -1,5 +1,12 @@
 import { CodePanel } from "@/app/_components/code-panel";
 import { LivePreview } from "@/app/_components/live-preview";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "cv-creator.tsx",
+  description:
+    "Interactive resume builder SaaS with real-time preview and serverless PDF generation built with Next.js and Supabase.",
+};
 
 export default function CvCreator() {
   const projectData = {

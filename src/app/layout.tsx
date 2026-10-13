@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ExplorerBar, FileBar } from "@/app/_components";
@@ -11,8 +11,19 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains",
 });
 
+export const viewport: Viewport = {
+  themeColor: "#1e1e1e",
+  colorScheme: "dark",
+};
+
 export const metadata: Metadata = {
-  title: "Michał Dobosz | Full-Stack Developer",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://michaldobosz.dev",
+  ),
+  title: {
+    default: "Michał Dobosz | Full-Stack Developer",
+    template: "%s | Michał Dobosz",
+  },
   description:
     "Full-stack developer portfolio building scalable, efficient web applications with modern tools.",
   keywords: [
@@ -25,12 +36,24 @@ export const metadata: Metadata = {
     "Portfolio",
   ],
   authors: [{ name: "Michał Dobosz" }],
+  creator: "Michał Dobosz",
   openGraph: {
     title: "Michał Dobosz | Full-Stack Developer",
     description:
       "Full-stack developer portfolio building scalable, efficient web applications with modern tools.",
     type: "website",
     locale: "en_US",
+    siteName: "Michał Dobosz Portfolio",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Michał Dobosz | Full-Stack Developer",
+    description:
+      "Full-stack developer portfolio building scalable, efficient web applications with modern tools.",
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 
