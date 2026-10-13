@@ -6,7 +6,7 @@ export default function CvCreator() {
     name: "Cv Creator",
     imageUrl: "/Cv-creator.png",
     type: "SaaS",
-    stack: ["Next.js", "Tailwind", "Supabase", "PostgreSQL", "Puppeter"],
+    stack: ["Next.js", "Tailwind", "Supabase", "PostgreSQL", "Puppeteer"],
     description: "Professional resume builder",
     descriptionExtended:
       "A full-stack Next.js application that provides an interactive drag-and-drop resume builder with real-time previews and multiple templates. It features secure user authentication and data management via Supabase, alongside full internationalization for English and Polish. The backend utilizes Puppeteer for serverless, pixel-perfect PDF rendering, while the dashboard allows users to manage and duplicate up to 5 individual resumes.",
@@ -16,7 +16,16 @@ export default function CvCreator() {
     liveUrl: "https://cv-creator-kappa.vercel.app/",
   };
 
-  const { imageUrl, descriptionExtended, ...codePanelData } = projectData;
+  const codePanelData = {
+    name: projectData.name,
+    type: projectData.type,
+    stack: projectData.stack,
+    description: projectData.description,
+    theme: projectData.theme,
+    status: projectData.status,
+    githubUrl: projectData.githubUrl,
+    liveUrl: projectData.liveUrl,
+  };
 
   const livePreviewData = {
     name: projectData.name,

@@ -24,7 +24,16 @@ export default function BlackwallTech() {
     liveUrl: "https://blackwall-tech-ecommerce.vercel.app/",
   };
 
-  const { imageUrl, descriptionExtended, ...codePanelData } = projectData;
+  const codePanelData = {
+    name: projectData.name,
+    type: projectData.type,
+    stack: projectData.stack,
+    description: projectData.description,
+    theme: projectData.theme,
+    status: projectData.status,
+    githubUrl: projectData.githubUrl,
+    liveUrl: projectData.liveUrl,
+  };
 
   const livePreviewData = {
     name: projectData.name,

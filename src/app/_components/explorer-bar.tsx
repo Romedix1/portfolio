@@ -6,7 +6,7 @@ import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { useState } from "react";
 
 export const ExplorerBar = () => {
-  const [isExanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   const panelButtonstyles =
     "cursor-pointer hover:text-syntax-accent focus:text-syntax-accent rotate-90 lg:rotate-0";
@@ -14,33 +14,35 @@ export const ExplorerBar = () => {
   return (
     <aside
       className={cn(
-        "py-4 pl-4 bg-bg-sidebar lg:h-screen overflow-hidden border-r border-border-line",
+        "py-4 pl-4 bg-bg-sidebar lg:h-screen overflow-hidden border-b lg:border-b-0 lg:border-r border-border-line",
       )}
     >
       <div
         className={cn(
           "flex justify-between items-center mr-4",
-          !isExanded && "justify-end lg:justify-between",
+          !isExpanded && "justify-end lg:justify-between",
         )}
       >
-        {isExanded && (
-          <h2 className="uppercase text text-text-dimmed">Explorer</h2>
+        {isExpanded && (
+          <h2 className="uppercase text-text-dimmed">Explorer</h2>
         )}
 
-        {isExanded ? (
+        {isExpanded ? (
           <PanelLeftClose
             onClick={() => setIsExpanded(false)}
             className={panelButtonstyles}
+            aria-label="Collapse explorer"
           />
         ) : (
           <PanelLeftOpen
             onClick={() => setIsExpanded(true)}
             className={panelButtonstyles}
+            aria-label="Expand explorer"
           />
         )}
       </div>
 
-      {isExanded && <PortfolioSection />}
+      {isExpanded && <PortfolioSection />}
     </aside>
   );
 };
