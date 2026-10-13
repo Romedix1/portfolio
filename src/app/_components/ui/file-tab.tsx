@@ -4,15 +4,16 @@ import { cn } from "@/lib/utils";
 import { useTabStore } from "@/store/useTabStore";
 import { X } from "lucide-react";
 import Link from "next/link";
-import { redirect, usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import type { MouseEvent } from "react";
 
-type FileTabProsp = {
+type FileTabProps = {
   text: string;
   path: string;
 };
 
-export const FileTab = ({ text, path }: FileTabProsp) => {
+export const FileTab = ({ text, path }: FileTabProps) => {
+  const router = useRouter();
   const currentPath = usePathname();
 
   const { removeTab } = useTabStore();
@@ -21,9 +22,12 @@ export const FileTab = ({ text, path }: FileTabProsp) => {
 
   const handleCloseTab = (e: MouseEvent<SVGSVGElement>) => {
     e.preventDefault();
+    e.stopPropagation();
     removeTab(text);
 
-    if (isCurrentPath) redirect("/");
+    if (isCurrentPath) {
+      router.push("/");
+    }
   };
 
   const tabStyles = isCurrentPath
@@ -41,8 +45,9 @@ export const FileTab = ({ text, path }: FileTabProsp) => {
       {text}
 
       <X
-        onClick={(event) => handleCloseTab(event)}
-        className="w-5 h-5 hover:bg-text-dimmed/30 shrink-0"
+        onClick={handleCloseTab}
+        className="w-5 h-5 hover:bg-text-dimmed/30 shrink-0 rounded"
+        aria-label={`Close ${text} tab`}
       />
     </Link>
   );

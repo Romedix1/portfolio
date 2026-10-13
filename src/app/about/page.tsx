@@ -1,4 +1,11 @@
 import { CodePanel } from "@/app/_components/code-panel";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "about.md",
+  description:
+    "Learn more about Michał Dobosz, a full-stack developer working with Next.js, React, and TypeScript.",
+};
 
 const stack: string[] = [
   "Next.js",

@@ -1,99 +1,37 @@
 "use client";
 
-import { getTerminalOutput } from "@/app/_components/terminal-commands";
+import { useTerminalHistory } from "@/app/hooks";
+import { useCommandStore } from "@/store/useCommandStore";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
-import { useRef, useState, KeyboardEvent, ReactNode } from "react";
 
 type TerminalProps = {
-  onClose: () => void;
-};
-
-type HistoryItem = {
-  command: string;
-  output: string | ReactNode;
+  onClose?: () => void;
 };
 
 export const Terminal = ({ onClose }: TerminalProps) => {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const endOfTerminalRef = useRef<HTMLDivElement>(null);
+  const { closeTerminal } = useCommandStore();
+  const handleClose = onClose ?? closeTerminal;
 
-  const [value, setValue] = useState("");
-  const [isFocused, setIsFocused] = useState(true);
-  const [currentHistoryIndex, setCurrentHistoryIndex] = useState(0);
-
-  const [history, setHistory] = useState<HistoryItem[]>([]);
-  const [cursorPos, setCursorPos] = useState(0);
-
-  const updateCursor = () => {
-    if (inputRef.current) {
-      setCursorPos(inputRef.current.selectionStart || 0);
-    }
-  };
-
-  const scrollToBottom = () => {
-    endOfTerminalRef.current?.scrollIntoView({ behavior: "auto" });
-  };
-
-  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      const command = value.trim();
-
-      if (command === "clear") {
-        setHistory([]);
-        setValue("");
-        return;
-      }
-
-      const output = getTerminalOutput(command);
-
-      if ((command && command !== "clear") || command === "") {
-        setHistory((prev) => {
-          const newHistory = [...prev, { command, output }];
-          setCurrentHistoryIndex(newHistory.length);
-          return newHistory;
-        });
-      } else {
-        setCurrentHistoryIndex(0);
-      }
-
-      setValue("");
-
-      setTimeout(scrollToBottom, 0);
-    } else if (event.key === "ArrowUp") {
-      event.preventDefault();
-
-      const newIndex = Math.max(currentHistoryIndex - 1, 0);
-
-      if (history[newIndex]) {
-        setCurrentHistoryIndex(newIndex);
-        setValue(history[newIndex].command);
-        setCursorPos(history[newIndex].command.length);
-      }
-    } else if (event.key === "ArrowDown") {
-      event.preventDefault();
-
-      const newIndex = Math.min(currentHistoryIndex + 1, history.length);
-
-      setCurrentHistoryIndex(newIndex);
-
-      if (newIndex === history.length) {
-        setValue("");
-        setCursorPos(0);
-      } else if (history[newIndex]) {
-        setValue(history[newIndex].command);
-        setCursorPos(history[newIndex].command.length);
-      }
-    }
-  };
-
-  const textBeforeCursor = value.substring(0, cursorPos);
-  const charUnderCursor = value.substring(cursorPos, cursorPos + 1) || " ";
-  const textAfterCursor = value.substring(cursorPos + 1);
+  const {
+    value,
+    setValue,
+    isFocused,
+    setIsFocused,
+    history,
+    inputRef,
+    endOfTerminalRef,
+    updateCursor,
+    handleKeyDown,
+    focusInput,
+    textBeforeCursor,
+    charUnderCursor,
+    textAfterCursor,
+  } = useTerminalHistory();
 
   return (
     <div
-      onClick={() => inputRef.current?.focus()}
+      onClick={focusInput}
       className="fixed bottom-0 left-0 w-full h-64 overflow-y-auto pt-2 bg-bg-sidebar border-t border-border-line flex flex-col z-10"
     >
       <div className="flex items-center justify-between px-4 h-9">
@@ -102,7 +40,7 @@ export const Terminal = ({ onClose }: TerminalProps) => {
         </span>
 
         <button
-          onClick={onClose}
+          onClick={handleClose}
           className="text-text-dimmed hover:text-text-primary p-1 rounded-md hover:bg-bg-active-element cursor-pointer flex items-center justify-center outline-none focus:bg-bg-active-element"
         >
           <X className="text-text-primary" />

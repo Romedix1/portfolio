@@ -1,5 +1,12 @@
 import { CodePanel } from "@/app/_components/code-panel";
 import { LivePreview } from "@/app/_components/live-preview";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "blackwall-tech.tsx",
+  description:
+    "E-commerce platform and workstation configurator built with Next.js, PostgreSQL, and Stripe.",
+};
 
 export default function BlackwallTech() {
   const projectData = {
@@ -24,7 +31,16 @@ export default function BlackwallTech() {
     liveUrl: "https://blackwall-tech-ecommerce.vercel.app/",
   };
 
-  const { imageUrl, descriptionExtended, ...codePanelData } = projectData;
+  const codePanelData = {
+    name: projectData.name,
+    type: projectData.type,
+    stack: projectData.stack,
+    description: projectData.description,
+    theme: projectData.theme,
+    status: projectData.status,
+    githubUrl: projectData.githubUrl,
+    liveUrl: projectData.liveUrl,
+  };
 
   const livePreviewData = {
     name: projectData.name,

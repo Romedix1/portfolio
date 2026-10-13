@@ -1,5 +1,12 @@
 import { CodePanel } from "@/app/_components/code-panel";
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "contact.md",
+  description:
+    "Get in touch with Michał Dobosz via email, LinkedIn, or GitHub for new projects and collaborations.",
+};
 
 export default function Contact() {
   const CONTACT_DATA = [
