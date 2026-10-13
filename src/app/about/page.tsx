@@ -16,7 +16,7 @@ export default function About() {
     <CodePanel type="markdown">
       <div className="mb-6 text-syntax-accent">
         <span className="font-bold">#</span>
-        <span className=" font-bold ml-2">About Me</span>
+        <span className="font-bold ml-2">About Me</span>
       </div>
 
       <div className="text-text-primary flex flex-col gap-6 leading-loose max-w-3xl mb-6">
