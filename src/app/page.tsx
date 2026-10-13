@@ -1,10 +1,27 @@
+"use client";
+
+import { useCommandStore } from "@/store/useCommandStore";
 import { Code2 } from "lucide-react";
 
 export default function Home() {
+  const { openSearch, toggleTerminal } = useCommandStore();
+
   const OPTIONS = [
-    { text: "Search files", shortcuts: ["Ctrl", "P"] },
-    { text: "Command palette", shortcuts: ["Ctrl", "Shift", "P"] },
-    { text: "Toggle terminal", shortcuts: ["Ctrl", "`"] },
+    {
+      text: "Search files",
+      shortcuts: ["Ctrl", "P"],
+      action: () => openSearch(""),
+    },
+    {
+      text: "Command palette",
+      shortcuts: ["Ctrl", "Shift", "P"],
+      action: () => openSearch(">"),
+    },
+    {
+      text: "Toggle terminal",
+      shortcuts: ["Ctrl", "`"],
+      action: () => toggleTerminal(),
+    },
   ];
 
   return (
@@ -17,7 +34,8 @@ export default function Home() {
       <div className="flex flex-col items-center text-text-dimmed">
         <div className="flex flex-col gap-4 text-sm md:text-base">
           {OPTIONS.map((option, index) => (
-            <div
+            <button
+              onClick={option.action}
               key={`editor-option-${index}`}
               className="flex items-center justify-between gap-12 md:gap-24"
             >
@@ -32,7 +50,7 @@ export default function Home() {
                   </span>
                 ))}
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </div>

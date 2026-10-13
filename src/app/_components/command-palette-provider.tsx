@@ -2,17 +2,25 @@
 
 import { useEffect, useRef, useState } from "react";
 import { SearchModal, Terminal } from "@/app/_components";
+import { useCommandStore } from "@/store/useCommandStore";
 
 export const CommandPaletteProvider = () => {
-  const [value, setValue] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isTerminalOpen, setIsTerminalOpen] = useState(false);
+  const {
+    isSearchOpen,
+    searchValue,
+    isTerminalOpen,
+    openSearch,
+    closeSearch,
+    setSearchValue,
+    toggleTerminal,
+    closeTerminal,
+  } = useCommandStore();
 
   const isModalOpenRef = useRef(false);
 
   useEffect(() => {
-    isModalOpenRef.current = isModalOpen;
-  }, [isModalOpen]);
+    isModalOpenRef.current = isSearchOpen;
+  }, [isSearchOpen]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -24,23 +32,21 @@ export const CommandPaletteProvider = () => {
       if ((isCtrlOrCmd && event.shiftKey && isKeyP) || event.key === "F1") {
         event.preventDefault();
         event.stopPropagation();
-        setValue(">");
-        setIsModalOpen(true);
+        openSearch(">");
         return;
       }
 
       if (isCtrlOrCmd && !event.shiftKey && isKeyP) {
         event.preventDefault();
         event.stopPropagation();
-        setValue("");
-        setIsModalOpen(true);
+        openSearch("");
         return;
       }
 
       if (isCtrlOrCmd && (event.key === "`" || event.code === "Backquote")) {
         event.preventDefault();
         event.stopPropagation();
-        setIsTerminalOpen((prev) => !prev);
+        toggleTerminal();
         return;
       }
     };
@@ -50,19 +56,19 @@ export const CommandPaletteProvider = () => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [openSearch, toggleTerminal]);
 
   return (
     <>
-      {isModalOpen && (
+      {isSearchOpen && (
         <SearchModal
-          value={value}
-          setValue={setValue}
-          onClose={() => setIsModalOpen(false)}
+          value={searchValue}
+          setValue={setSearchValue}
+          onClose={closeSearch}
         />
       )}
 
-      {isTerminalOpen && <Terminal onClose={() => setIsTerminalOpen(false)} />}
+      {isTerminalOpen && <Terminal onClose={closeTerminal} />}
     </>
   );
 };

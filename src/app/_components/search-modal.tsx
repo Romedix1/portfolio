@@ -6,20 +6,14 @@ import {
 } from "@/app/_components/search-modal-commands";
 import { useTabStore } from "@/store/useTabStore";
 import { cn } from "@/lib/utils";
+import { X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 type SearchModalProps = {
   value: string;
-  setValue: Dispatch<SetStateAction<string>>;
+  setValue: (value: string) => void;
   onClose: () => void;
 };
 
@@ -119,7 +113,7 @@ export const SearchModal = ({ value, setValue, onClose }: SearchModalProps) => {
   return (
     <div
       ref={modalRef}
-      className="w-225 bg-bg-main border border-border-line rounded-md overflow-hidden fixed z-50 top-4 left-1/2 -translate-x-1/2"
+      className="lg:w-225 w-11/12 bg-bg-main border border-border-line rounded-md overflow-hidden fixed z-50 top-4 left-1/2 -translate-x-1/2"
     >
       <div className="flex items-center justify-between border-b border-border-line pr-3 pl-6 bg-bg-sidebar">
         <input
@@ -138,7 +132,16 @@ export const SearchModal = ({ value, setValue, onClose }: SearchModalProps) => {
           className="flex-1 bg-transparent text-text-primary placeholder:text-text-dimmed outline-none text-sm py-3"
         />
 
-        <span className="text-[10px] text-text-dimmed border border-border-line rounded px-1.5 py-0.5">
+        <button
+          type="button"
+          onClick={onClose}
+          className="sm:hidden text-text-dimmed hover:text-text-primary p-1.5 rounded hover:bg-bg-active-element flex items-center justify-center"
+          aria-label="Close search"
+        >
+          <X className="w-5 h-5" />
+        </button>
+
+        <span className="text-[10px] text-text-dimmed border border-border-line rounded px-1.5 py-0.5 hidden sm:block">
           ESC
         </span>
       </div>
@@ -157,15 +160,17 @@ export const SearchModal = ({ value, setValue, onClose }: SearchModalProps) => {
                       className={cn(
                         "flex items-center gap-2 py-2 px-3 rounded-md ",
                         currentSelected === index
-                          ? "bg-syntax-accent/70"
+                          ? "bg-syntax-accent/70 text-text-primary"
                           : "hover:bg-bg-active-element outline-none focus:bg-bg-active-element group",
                       )}
                     >
-                      {project.name}
+                      <span className="whitespace-nowrap shrink-0 font-medium text-xs sm:text-sm">
+                        {project.name}
+                      </span>
 
                       <span
                         className={cn(
-                          "text-text-dimmed group-focus:text-text-primary group-hover:text-text-primary",
+                          "text-text-dimmed group-focus:text-text-primary group-hover:text-text-primary truncate",
                           currentSelected === index && "text-text-primary",
                         )}
                       >
@@ -187,12 +192,12 @@ export const SearchModal = ({ value, setValue, onClose }: SearchModalProps) => {
           <span className="p-1 flex flex-col">
             {filteredCommands.length > 0 ? (
               <div className="flex flex-col gap-1">
-                {filteredCommands.map((project, index) => {
+                {filteredCommands.map((command, index) => {
                   return (
                     <button
                       key={`project-command-${index}`}
                       onClick={() => {
-                        project.action();
+                        command.action();
                         onClose();
                       }}
                       className={cn(
@@ -202,7 +207,7 @@ export const SearchModal = ({ value, setValue, onClose }: SearchModalProps) => {
                           : "hover:text-text-primary hover:bg-bg-active-element outline-none focus:text-text-primary focus:bg-bg-active-element",
                       )}
                     >
-                      {project.name}
+                      <span className="truncate">{command.name}</span>
                     </button>
                   );
                 })}

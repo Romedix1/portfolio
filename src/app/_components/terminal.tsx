@@ -94,7 +94,7 @@ export const Terminal = ({ onClose }: TerminalProps) => {
   return (
     <div
       onClick={() => inputRef.current?.focus()}
-      className="absolute bottom-0 left-0 w-full h-64 overflow-y-auto pt-2 bg-bg-sidebar border-t border-border-line flex flex-col z-10"
+      className="fixed bottom-0 left-0 w-full h-64 overflow-y-auto pt-2 bg-bg-sidebar border-t border-border-line flex flex-col z-10"
     >
       <div className="flex items-center justify-between px-4 h-9">
         <span className="text-sm bg-bg-active-element px-3 py-2 rounded-md text-text-primary flex items-center">
@@ -141,7 +141,7 @@ export const Terminal = ({ onClose }: TerminalProps) => {
               onKeyDown={handleKeyDown}
             />
 
-            <div className="pointer-events-none whitespace-pre font-mono text-text-primary flex items-center">
+            <div className="pointer-events-none whitespace-pre text-text-primary flex items-center">
               <span>{textBeforeCursor}</span>
               <span
                 className={cn(
