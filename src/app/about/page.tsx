@@ -21,10 +21,10 @@ const stack: string[] = [
 export default function About() {
   return (
     <CodePanel type="markdown">
-      <div className="mb-6 text-syntax-accent">
-        <span className="font-bold">#</span>
-        <span className="font-bold ml-2">About Me</span>
-      </div>
+      <h1 className="mb-6 text-syntax-accent font-bold">
+        <span>#</span>
+        <span className="ml-2">About Me</span>
+      </h1>
 
       <div className="text-text-primary flex flex-col gap-6 leading-loose max-w-3xl mb-6">
         <p className="leading-6">
@@ -50,10 +50,10 @@ export default function About() {
         </p>
       </div>
 
-      <div className="text-syntax-accent">
-        <span className="font-bold">##</span>
-        <span className="font-bold ml-2">Tech Stack</span>
-      </div>
+      <h2 className="text-syntax-accent font-bold">
+        <span>##</span>
+        <span className="ml-2">Tech Stack</span>
+      </h2>
 
       <div className="leading-6 text-text-primary">
         {stack.map((item) => (

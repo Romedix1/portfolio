@@ -22,7 +22,9 @@ export const LivePreview = ({ data }: LivePreviewProps) => {
 
   return (
     <section className="flex p-5.5 gap-3 bg-bg-preview flex-1 flex-col">
-      <h3 className="uppercase text-text-dimmed">Live preview</h3>
+      <p className="uppercase text-text-dimmed text-xs tracking-wider">
+        Live preview
+      </p>
 
       <article className="flex flex-col gap-3">
         <div className="w-full flex border border-border-line rounded-md flex-col">
@@ -42,9 +44,9 @@ export const LivePreview = ({ data }: LivePreviewProps) => {
           />
         </div>
 
-        <h4 className="font-semibold text-lg">
+        <h1 className="font-semibold text-lg">
           {name} - <span className="whitespace-nowrap">{type}</span>
-        </h4>
+        </h1>
         <p className="text-text-dimmed ">{descriptionExtended}</p>
 
         <div className="flex gap-2  flex-wrap">
