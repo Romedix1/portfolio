@@ -36,6 +36,7 @@ export const FileTab = ({ text, path }: FileTabProps) => {
 
   return (
     <Link
+      aria-current={isCurrentPath ? "page" : undefined}
       className={cn(
         "pl-4.5 shrink-0 pr-3 py-2.5 flex items-center gap-3",
         tabStyles,
@@ -45,6 +46,7 @@ export const FileTab = ({ text, path }: FileTabProps) => {
       {text}
 
       <X
+        data-testid="tab-close-btn"
         onClick={handleCloseTab}
         className="w-5 h-5 hover:bg-text-dimmed/30 shrink-0 rounded"
         aria-label={`Close ${text} tab`}

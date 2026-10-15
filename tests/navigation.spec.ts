@@ -62,7 +62,7 @@ test.describe("Navigation", () => {
   test("Should correctly show 404 page", async ({ page }) => {
     await page.goto("/notfound");
 
-    await expect(page).toHaveURL(new RegExp(`/notfound$`));
+    await expect(page).toHaveURL(/\/notfound$/);
 
     await expect(
       page.getByRole("heading", { name: "404: File Not Found" }),
