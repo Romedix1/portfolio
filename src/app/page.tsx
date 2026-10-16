@@ -8,16 +8,19 @@ export default function Home() {
 
   const OPTIONS = [
     {
+      testId: "home-search-btn",
       text: "Search files",
       shortcuts: ["Ctrl", "P"],
       action: () => openSearch(""),
     },
     {
+      testId: "home-palette-btn",
       text: "Command palette",
       shortcuts: ["Ctrl", "Shift", "P"],
       action: () => openSearch(">"),
     },
     {
+      testId: "home-terminal-btn",
       text: "Toggle terminal",
       shortcuts: ["Ctrl", "`"],
       action: () => toggleTerminal(),
@@ -25,7 +28,10 @@ export default function Home() {
   ];
 
   return (
-    <section className="flex flex-col items-center justify-center h-100 lg:h-[80%] select-none p-4">
+    <section
+      data-testid="main-container"
+      className="flex flex-col items-center justify-center h-100 lg:h-[80%] select-none p-4"
+    >
       <Code2
         className="w-24 h-24 md:w-48 md:h-48 text-text-dimmed opacity-40 mb-8"
         strokeWidth={1}
@@ -35,9 +41,10 @@ export default function Home() {
         <div className="flex flex-col gap-4 text-sm md:text-base">
           {OPTIONS.map((option, index) => (
             <button
+              data-testid={option.testId}
               onClick={option.action}
               key={`editor-option-${index}`}
-              className="flex items-center justify-between gap-12 md:gap-24"
+              className="flex items-center justify-between gap-12 md:gap-24 hover:text-text-primary"
             >
               <span>{option.text}</span>
               <div className="flex gap-1.5 text-xs text-text-primary">

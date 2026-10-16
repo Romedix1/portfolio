@@ -41,6 +41,7 @@ export const Terminal = ({ onClose }: TerminalProps) => {
 
         <button
           onClick={handleClose}
+          aria-label="Close terminal"
           className="text-text-dimmed hover:text-text-primary p-1 rounded-md hover:bg-bg-active-element cursor-pointer flex items-center justify-center outline-none focus:bg-bg-active-element"
         >
           <X className="text-text-primary" />
@@ -61,7 +62,13 @@ export const Terminal = ({ onClose }: TerminalProps) => {
           <div className="relative flex">
             <span className="mr-2 whitespace-pre">[romedix@portfolio]$</span>
 
+            <label htmlFor="terminal-input" className="sr-only">
+              Terminal command input
+            </label>
+
             <input
+              id="terminal-input"
+              name="terminal-command"
               ref={inputRef}
               type="text"
               value={value}

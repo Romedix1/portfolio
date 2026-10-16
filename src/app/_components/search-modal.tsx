@@ -83,12 +83,20 @@ export const SearchModal = ({
 
   return (
     <div
+      role="dialog"
+      aria-modal="true"
       ref={modalRef}
       aria-label={isCommandMode ? "Command Palette" : "Search files"}
       className="lg:w-225 w-11/12 bg-bg-main border border-border-line rounded-md overflow-hidden fixed z-50 top-4 left-1/2 -translate-x-1/2"
     >
       <div className="flex items-center justify-between border-b border-border-line pr-3 pl-6 bg-bg-sidebar">
+        <label htmlFor="search-input" className="sr-only">
+          {isCommandMode ? "Command input" : "Search files"}
+        </label>
+
         <input
+          id="search-input"
+          name="search"
           onChange={(event) => {
             setValue(event.target.value);
             setCurrentSelected(0);
