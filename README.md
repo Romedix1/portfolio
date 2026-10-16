@@ -24,7 +24,7 @@ This portfolio brings a desktop code editor experience to the web, featuring:
 - **Tabs System:** Multi-tab browsing with state persistence in `localStorage`, active tab indicators, and close actions.
 - **Quick File Search (<kbd>Ctrl</kbd> + <kbd>P</kbd>):** Fast file finder with real-time filtering and full keyboard arrow navigation.
 - **Command Palette (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> / <kbd>F1</kbd>):** Execute quick actions (copy email, download PDF CV, open GitHub / LinkedIn).
-- **Interactive Terminal (<kbd>Ctrl</kbd> + <kbd>`</kbd>):** Functional in-browser terminal with command history, autocomplete navigation, and built-in commands (`help`, `whoami`, `skills`, `contact`, `projects`, `echo`, `clear`, `sudo`).
+- **Interactive Terminal (<kbd>Ctrl</kbd> + <kbd>&#96;</kbd>):** Functional in-browser terminal with command history, autocomplete navigation, and built-in commands (`help`, `whoami`, `skills`, `contact`, `projects`, `echo`, `clear`, `sudo`).
 - **E2E Tests:** Complete end-to-end test coverage with Playwright for navigation, tabs, search modal, and terminal across modern browser engines.
 - **SEO & Accessibility:** Fully compliant with WAI-ARIA standards, dynamic metadata, OpenGraph, sitemap, and robots.txt.
 
@@ -141,4 +141,4 @@ npx playwright test tests/search.spec.ts
 
 ## License
 
-This project is open source and available under the [MIT License](LICENSE).
+This project is open source and available under the MIT License.
