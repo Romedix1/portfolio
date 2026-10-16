@@ -15,9 +15,7 @@ test.describe("Search modal", () => {
       await openWithShortcut(page, "Control+p");
 
       searchModal = page.getByRole("dialog");
-      searchInput = searchModal.getByRole("textbox", {
-        name: /search files/i,
-      });
+      searchInput = searchModal.getByLabel(/search files/i);
 
       await expect(searchModal).toBeVisible();
       await expect(searchInput).toHaveValue("");
@@ -68,9 +66,7 @@ test.describe("Search modal", () => {
       await openWithShortcut(page, "Control+Shift+P");
 
       searchModal = page.getByRole("dialog");
-      searchInput = searchModal.getByRole("textbox", {
-        name: /command input/i,
-      });
+      searchInput = searchModal.getByLabel(/command input/i);
 
       await expect(searchModal).toBeVisible();
       await expect(searchInput).toHaveValue(">");
