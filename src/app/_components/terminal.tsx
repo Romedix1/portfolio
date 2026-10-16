@@ -31,6 +31,7 @@ export const Terminal = ({ onClose }: TerminalProps) => {
 
   return (
     <div
+      data-testid="terminal-container"
       onClick={focusInput}
       className="fixed bottom-0 left-0 w-full h-64 overflow-y-auto pt-2 bg-bg-sidebar border-t border-border-line flex flex-col z-10"
     >
@@ -41,6 +42,8 @@ export const Terminal = ({ onClose }: TerminalProps) => {
 
         <button
           onClick={handleClose}
+          aria-label="Close terminal"
+          data-testid="terminal-close-btn"
           className="text-text-dimmed hover:text-text-primary p-1 rounded-md hover:bg-bg-active-element cursor-pointer flex items-center justify-center outline-none focus:bg-bg-active-element"
         >
           <X className="text-text-primary" />
@@ -61,7 +64,14 @@ export const Terminal = ({ onClose }: TerminalProps) => {
           <div className="relative flex">
             <span className="mr-2 whitespace-pre">[romedix@portfolio]$</span>
 
+            <label htmlFor="terminal-input" className="sr-only">
+              Terminal command input
+            </label>
+
             <input
+              id="terminal-input"
+              data-testid="terminal-input"
+              name="terminal-command"
               ref={inputRef}
               type="text"
               value={value}

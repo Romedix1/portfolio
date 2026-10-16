@@ -29,10 +29,10 @@ export default function Contact() {
 
   return (
     <CodePanel type="markdown">
-      <div className="mb-6 text-syntax-accent font-bold ">
+      <h1 className="mb-6 text-syntax-accent font-bold">
         <span>#</span>
         <span className="ml-2">Contact</span>
-      </div>
+      </h1>
 
       <div className="text-text-primary flex flex-col gap-6 leading-loose max-w-3xl mb-6">
         <p className="leading-6">
@@ -46,10 +46,10 @@ export default function Contact() {
         </p>
       </div>
 
-      <div className="mb-6 text-syntax-accent">
+      <h2 className="mb-6 text-syntax-accent font-bold">
         <span>##</span>
         <span className="ml-2">Direct Links</span>
-      </div>
+      </h2>
 
       <div className=" text-text-primary">
         {CONTACT_DATA.map((data) => {
