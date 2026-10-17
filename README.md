@@ -5,7 +5,7 @@
 An interactive, fully responsive developer portfolio engineered as a **VS Code / IDE clone**.
 Built with **Next.js 16 (App Router)**, **React 19**, **TypeScript**, and **Tailwind CSS v4**.
 
-[Live Demo](https://github.com/Romedix1) • [Report Bug](https://github.com/Romedix1/portfolio/issues) • [Contact Me](mailto:doboszmichal4@gmail.com)
+[Live Demo](https://portfolio-sand-delta-xpo6t0y6an.vercel.app/) • [Report Bug](https://github.com/Romedix1/portfolio/issues) • [Contact Me](mailto:doboszmichal4@gmail.com)
 
 ---
 
